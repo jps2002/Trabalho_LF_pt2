@@ -13,12 +13,6 @@
 // CBRAC = 22, SCOL = 23, COL = 24
 // } TOKEN;
 
-// retorna a string contendo o nome ou tipo associada ao token dado por token_key
-char* GetTokenName(TOKEN token_key)
-{
-    return GetEnumName(dicionario_tokens, token_key);
-}
-
 /*
 %option yylineno é uma variável nativa do flex que aramzena em que linha da entrada está o analisador.
 É incremmentado em 1 toda vez que uma quebra de linha é lida
@@ -35,8 +29,6 @@ estado inicial do analisador
 int line, col = 1, nivel_comment = 0, colComment;
 
 %}
-LETRAMIN [a-z]
-LETRAMAIS [A-Z]
 LETRA [a-zA-Z]
 NUM [0-9]
 QUEBRA [\n]
