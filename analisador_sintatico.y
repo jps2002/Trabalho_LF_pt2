@@ -17,59 +17,60 @@ void yyerror(const char* s);
 
 %start PROG
 
+// 8 shift-reduce conflict
 %%
 
-PROG: DECLARACAO {};
+PROG: DECLARACAO {printf("Inicio do codigo\n");};
 
-DECLARACAO: EOF {}
-	| DVAR DECLARACAO {}
-	| DCONS DECLARACAO {}
-	| DFN DECLARACAO {}
+DECLARACAO: {printf("Fim do programa\n");}
+	| DVAR DECLARACAO {printf("Declarando variavel\n");}
+	| DCONS DECLARACAO {printf("Declarando consatnte\n");}
+	| DFN DECLARACAO {printf("Declarando função\n");}
 ;
 
-DVAR: VAR ID COL TYPE SCOL {}
-	| VAR ID COL TYPE ATRIB LITERALINT SCOL {}
-	| VAR ID COL TYPE ATRIB LITERALFLOAT SCOL {}
+DVAR: VAR ID COL TYPE SCOL {printf("Declarando varaivel sem iniciar valor\n");}
+	| VAR ID COL TYPE ATRIB LITERALINT SCOL {printf("Declarando variavel com inteiro\n");}
+	| VAR ID COL TYPE ATRIB LITERALFLOAT SCOL {printf("Declarando variavel com float\n");}
 ;
 
-DCONS: CONST ID COL TYPE ATRIB LITERALINT SCOL {}
-	| CONST ID COL TYPE ATRIB LITERALFLOAT SCOL {}
+DCONS: CONST ID COL TYPE ATRIB LITERALINT SCOL {printf("Declarando constante com inteiro\n");}
+	| CONST ID COL TYPE ATRIB LITERALFLOAT SCOL {printf("Declarando constante com float\n");}
 ;
 
-DFN: FN ID OPAR PARMS CPAR COL TYPE OBRAC DCS CMDS RETURN SCOL CBRAC SCOL {}
+DFN: FN ID OPAR PARMS CPAR COL TYPE OBRAC DCS CMDS RETURN SCOL CBRAC SCOL {printf("Declarando função\n");}
 ;
 
-PARMS: ID COL TYPE SCOL PARMS {}
-	| ID COL TYPE {}
+PARMS: ID COL TYPE SCOL PARMS {printf("Parametros intermidiarios\n");}
+	| ID COL TYPE {printf("Ultimo parametro\n");}
 ;
 
-TYPE: BOOL {}
-	| INT {}
-	| FLOAT {}
+TYPE: BOOL {printf("Tipo booleano\n");}
+	| INT {printf("Tipo inteiro\n");}
+	| FLOAT {printf("Tipo float\n");}
 ;
 
-DCS: DVAR SCOL DCS {}
-	| DCONS SCOL DCS {}
-	| DVAR SCOL {}
-	| DCONS SCOL {}
+DCS: DVAR SCOL DCS {printf("Declarando variavel\n");}
+	| DCONS SCOL DCS {printf("Declarando constante\n");}
+	| DVAR SCOL {printf("Declarando ultima variavel\n");}
+	| DCONS SCOL {printf("Declarando ultima consatnte\n");}
 ;
 
-CMDS: 
-	| VAR ID ATRIB EXP SCOL CMDS {}
-	| IF OPAR COND CPAR OBRAC CMDS CBRAC ELSE OBRAC CMDS CBRAC SCOL CMDS {}
-	| IF OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS {}
-	| WHILE OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS {}
-	| RETURN EXP SCOL CMDS {}
+CMDS: {printf("Fim comandos\n");}
+	| VAR ID ATRIB EXP SCOL CMDS {printf("Comando atribuição\n");}
+	| IF OPAR COND CPAR OBRAC CMDS CBRAC ELSE OBRAC CMDS CBRAC SCOL CMDS {printf("If-else\n");}
+	| IF OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS {printf("If\n");}
+	| WHILE OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS {printf("While\n");}
+	| RETURN EXP SCOL CMDS {printf("Um retorno\n");}
 ;
 
-EXP: ID PLUS EXP {}
-	| ID TIMES EXP {}
-	| ID EQUAL EXP {}
-	| ID SCOL {}
+EXP: ID PLUS EXP {printf("Soma\n");}
+	| ID TIMES EXP {printf("Multiplicação\n");}
+	| ID EQUAL EXP {printf("Comparação\n");}
+	| ID SCOL {printf("Ultimo termo\n");}
 ;
 
-COND: ID EQUAL COND {}
-	| ID {}
+COND: ID EQUAL COND {printf("Condicional\n");}
+	| ID {printf("Ultimo termo da condição\n");}
 ;
 
 %%
