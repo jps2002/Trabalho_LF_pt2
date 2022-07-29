@@ -13,35 +13,41 @@ void yyerror(const char* s);
 %token 
     PLUS TIMES EQUAL ID LITERALINT LITERALFLOAT IF ELSE WHILE VAR
     CONST RETURN FN ATRIB BOOL INT FLOAT TRU FALS OPAR CPAR OBRAC CBRAC
-    SCOL COL EOF
+    SCOL COL ERROR INVALID_INPUT
 
-%start PROG
+%start DECLARACAO
 
-// 8 shift-reduce conflict
 %%
 
-PROG: DECLARACAO {printf("Inicio do codigo\n");};
-
 DECLARACAO: {printf("Fim do programa\n");}
-	| DVAR DECLARACAO {printf("Declarando variavel\n");}
-	| DCONS DECLARACAO {printf("Declarando consatnte\n");}
-	| DFN DECLARACAO {printf("Declarando função\n");}
+	| VAR ID COL TYPE DVAR DECLARACAO {printf("Declarando variavel\n");}
+	| CONST DCONS DECLARACAO {printf("Declarando consatnte\n");}
+	| FN DFN DECLARACAO {printf("Declarando função\n");}
 ;
 
-DVAR: VAR ID COL TYPE SCOL {printf("Declarando varaivel sem iniciar valor\n");}
-	| VAR ID COL TYPE ATRIB LITERALINT SCOL {printf("Declarando variavel com inteiro\n");}
-	| VAR ID COL TYPE ATRIB LITERALFLOAT SCOL {printf("Declarando variavel com float\n");}
+DVAR:  SCOL {printf("Declarando varaivel sem iniciar valor\n");}
+	| ATRIB DVAR2 {printf("Declarando variavel iniciando valor...\n");}
 ;
 
-DCONS: CONST ID COL TYPE ATRIB LITERALINT SCOL {printf("Declarando constante com inteiro\n");}
-	| CONST ID COL TYPE ATRIB LITERALFLOAT SCOL {printf("Declarando constante com float\n");}
+DVAR2: LITERALINT SCOL {printf("Declarando variavel com inteiro\n");}
+	|  LITERALFLOAT SCOL {printf("Declarando variavel com float\n");}
 ;
 
-DFN: FN ID OPAR PARMS CPAR COL TYPE OBRAC DCS CMDS RETURN SCOL CBRAC SCOL {printf("Declarando função\n");}
+DCONS: ID COL TYPE ATRIB DCONS2 {printf("Declarando constante...\n");}
 ;
 
-PARMS: ID COL TYPE SCOL PARMS {printf("Parametros intermidiarios\n");}
-	| ID COL TYPE {printf("Ultimo parametro\n");}
+DCONS2: LITERALINT SCOL {printf("Declarando constante com inteiro\n");}
+	|	LITERALFLOAT SCOL {printf("Declarando constante com float\n");}
+;
+
+DFN: ID OPAR PARMS CPAR COL TYPE OBRAC DCS CMDS CBRAC SCOL {printf("Declarando função\n");}
+;
+
+PARMS: ID COL TYPE PARMS2 {printf("Parametros novo\n");}
+;
+
+PARMS2: SCOL PARMS {printf("Parametros intermidiarios\n");}
+	|	{printf("Ultimo parametro\n");}
 ;
 
 TYPE: BOOL {printf("Tipo booleano\n");}
@@ -49,14 +55,13 @@ TYPE: BOOL {printf("Tipo booleano\n");}
 	| FLOAT {printf("Tipo float\n");}
 ;
 
-DCS: DVAR SCOL DCS {printf("Declarando variavel\n");}
-	| DCONS SCOL DCS {printf("Declarando constante\n");}
-	| DVAR SCOL {printf("Declarando ultima variavel\n");}
-	| DCONS SCOL {printf("Declarando ultima consatnte\n");}
+DCS: {printf("Fim declarações\n");}
+	| VAR ID COL TYPE DVAR DCS {printf("Declarando variavel\n");}
+	| CONST DCONS DCS {printf("Declarando constante\n");}
 ;
 
 CMDS: {printf("Fim comandos\n");}
-	| VAR ID ATRIB EXP SCOL CMDS {printf("Comando atribuição\n");}
+	| ID ATRIB EXP SCOL CMDS {printf("Comando atribuição\n");}
 	| IF OPAR COND CPAR OBRAC CMDS CBRAC ELSE OBRAC CMDS CBRAC SCOL CMDS {printf("If-else\n");}
 	| IF OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS {printf("If\n");}
 	| WHILE OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS {printf("While\n");}

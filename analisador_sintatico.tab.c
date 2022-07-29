@@ -102,69 +102,7 @@ void yyerror(const char* s);
 #  endif
 # endif
 
-
-/* Debug traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 0
-#endif
-#if YYDEBUG
-extern int yydebug;
-#endif
-
-/* Token kinds.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-  enum yytokentype
-  {
-    YYEMPTY = -2,
-    YYEOF = 0,                     /* "end of file"  */
-    YYerror = 256,                 /* error  */
-    YYUNDEF = 257,                 /* "invalid token"  */
-    PLUS = 258,                    /* PLUS  */
-    TIMES = 259,                   /* TIMES  */
-    EQUAL = 260,                   /* EQUAL  */
-    ID = 261,                      /* ID  */
-    LITERALINT = 262,              /* LITERALINT  */
-    LITERALFLOAT = 263,            /* LITERALFLOAT  */
-    IF = 264,                      /* IF  */
-    ELSE = 265,                    /* ELSE  */
-    WHILE = 266,                   /* WHILE  */
-    VAR = 267,                     /* VAR  */
-    CONST = 268,                   /* CONST  */
-    RETURN = 269,                  /* RETURN  */
-    FN = 270,                      /* FN  */
-    ATRIB = 271,                   /* ATRIB  */
-    BOOL = 272,                    /* BOOL  */
-    INT = 273,                     /* INT  */
-    FLOAT = 274,                   /* FLOAT  */
-    TRU = 275,                     /* TRU  */
-    FALS = 276,                    /* FALS  */
-    OPAR = 277,                    /* OPAR  */
-    CPAR = 278,                    /* CPAR  */
-    OBRAC = 279,                   /* OBRAC  */
-    CBRAC = 280,                   /* CBRAC  */
-    SCOL = 281,                    /* SCOL  */
-    COL = 282,                     /* COL  */
-    EOF = 283                      /* EOF  */
-  };
-  typedef enum yytokentype yytoken_kind_t;
-#endif
-
-/* Value type.  */
-#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
-# define YYSTYPE_IS_DECLARED 1
-#endif
-
-
-extern YYSTYPE yylval;
-
-
-int yyparse (void);
-
-
-
+#include "analisador_sintatico.tab.h"
 /* Symbol kind.  */
 enum yysymbol_kind_t
 {
@@ -197,19 +135,22 @@ enum yysymbol_kind_t
   YYSYMBOL_CBRAC = 25,                     /* CBRAC  */
   YYSYMBOL_SCOL = 26,                      /* SCOL  */
   YYSYMBOL_COL = 27,                       /* COL  */
-  YYSYMBOL_EOF = 28,                       /* EOF  */
-  YYSYMBOL_YYACCEPT = 29,                  /* $accept  */
-  YYSYMBOL_PROG = 30,                      /* PROG  */
+  YYSYMBOL_ERROR = 28,                     /* ERROR  */
+  YYSYMBOL_INVALID_INPUT = 29,             /* INVALID_INPUT  */
+  YYSYMBOL_YYACCEPT = 30,                  /* $accept  */
   YYSYMBOL_DECLARACAO = 31,                /* DECLARACAO  */
   YYSYMBOL_DVAR = 32,                      /* DVAR  */
-  YYSYMBOL_DCONS = 33,                     /* DCONS  */
-  YYSYMBOL_DFN = 34,                       /* DFN  */
-  YYSYMBOL_PARMS = 35,                     /* PARMS  */
-  YYSYMBOL_TYPE = 36,                      /* TYPE  */
-  YYSYMBOL_DCS = 37,                       /* DCS  */
-  YYSYMBOL_CMDS = 38,                      /* CMDS  */
-  YYSYMBOL_EXP = 39,                       /* EXP  */
-  YYSYMBOL_COND = 40                       /* COND  */
+  YYSYMBOL_DVAR2 = 33,                     /* DVAR2  */
+  YYSYMBOL_DCONS = 34,                     /* DCONS  */
+  YYSYMBOL_DCONS2 = 35,                    /* DCONS2  */
+  YYSYMBOL_DFN = 36,                       /* DFN  */
+  YYSYMBOL_PARMS = 37,                     /* PARMS  */
+  YYSYMBOL_PARMS2 = 38,                    /* PARMS2  */
+  YYSYMBOL_TYPE = 39,                      /* TYPE  */
+  YYSYMBOL_DCS = 40,                       /* DCS  */
+  YYSYMBOL_CMDS = 41,                      /* CMDS  */
+  YYSYMBOL_EXP = 42,                       /* EXP  */
+  YYSYMBOL_COND = 43                       /* COND  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -535,21 +476,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  12
+#define YYFINAL  10
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   113
+#define YYLAST   93
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  29
+#define YYNTOKENS  30
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  12
+#define YYNNTS  14
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  33
+#define YYNRULES  34
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  102
+#define YYNSTATES  104
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   283
+#define YYMAXUTOK   284
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -591,17 +532,17 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
       15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
-      25,    26,    27,    28
+      25,    26,    27,    28,    29
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int8 yyrline[] =
 {
-       0,    22,    22,    24,    25,    26,    27,    30,    31,    32,
-      35,    36,    39,    42,    43,    46,    47,    48,    51,    52,
-      53,    54,    57,    58,    59,    60,    61,    62,    65,    66,
-      67,    68,    71,    72
+       0,    22,    22,    23,    24,    25,    28,    29,    32,    33,
+      36,    39,    40,    43,    46,    49,    50,    53,    54,    55,
+      58,    59,    60,    63,    64,    65,    66,    67,    68,    71,
+      72,    73,    74,    77,    78
 };
 #endif
 
@@ -620,9 +561,9 @@ static const char *const yytname[] =
   "\"end of file\"", "error", "\"invalid token\"", "PLUS", "TIMES",
   "EQUAL", "ID", "LITERALINT", "LITERALFLOAT", "IF", "ELSE", "WHILE",
   "VAR", "CONST", "RETURN", "FN", "ATRIB", "BOOL", "INT", "FLOAT", "TRU",
-  "FALS", "OPAR", "CPAR", "OBRAC", "CBRAC", "SCOL", "COL", "EOF",
-  "$accept", "PROG", "DECLARACAO", "DVAR", "DCONS", "DFN", "PARMS", "TYPE",
-  "DCS", "CMDS", "EXP", "COND", YY_NULLPTR
+  "FALS", "OPAR", "CPAR", "OBRAC", "CBRAC", "SCOL", "COL", "ERROR",
+  "INVALID_INPUT", "$accept", "DECLARACAO", "DVAR", "DVAR2", "DCONS",
+  "DCONS2", "DFN", "PARMS", "PARMS2", "TYPE", "DCS", "CMDS", "EXP", "COND", YY_NULLPTR
 };
 
 static const char *
@@ -632,7 +573,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-72)
+#define YYPACT_NINF (-70)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -646,17 +587,17 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      30,     3,    15,    21,    44,   -72,    30,    30,    30,    31,
-      32,    34,   -72,   -72,   -72,   -72,    29,    29,    51,   -72,
-     -72,   -72,    -8,    45,    33,    39,     8,   -72,    27,    29,
-      36,    38,    41,    42,    46,    47,    29,   -72,   -72,   -72,
-     -72,    51,    50,   -72,    40,    49,    52,    19,    40,    40,
-      48,    54,    59,    60,    55,   -72,   -72,    65,    65,    61,
-      -1,    53,    56,    75,    58,    62,    60,    60,    60,    60,
-     -72,    19,    63,    65,    66,    67,    57,   -72,   -72,   -72,
-     -72,    68,   -72,    19,    19,    19,   -72,    64,    70,   -72,
-      -9,    71,    69,    19,    19,    19,   -72,   -72,    73,    74,
-      19,   -72
+      22,     7,    12,    30,    47,    21,    23,    22,    33,    22,
+     -70,    -8,    -8,   -70,    46,   -70,   -70,   -70,   -70,    -9,
+      37,    29,    34,    14,   -70,    22,    31,    -8,    32,    35,
+      36,   -70,   -70,    38,    39,   -70,    41,    -8,   -70,   -70,
+     -70,   -70,    46,   -70,    42,   -70,    28,    52,    12,    40,
+      43,    28,    44,    49,    50,    57,    48,    -8,   -70,    57,
+      62,    62,    -2,    51,    53,    -9,    54,    64,    55,    58,
+      57,    57,    57,   -70,    40,   -70,    28,    40,    62,    59,
+      60,   -70,   -70,   -70,   -70,   -70,   -70,   -70,    40,    40,
+      61,    63,     6,    56,    65,    40,    40,    40,   -70,   -70,
+      66,    67,    40,   -70
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -664,31 +605,31 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       3,     0,     0,     0,     0,     2,     3,     3,     3,     0,
-       0,     0,     1,     4,     5,     6,     0,     0,     0,    15,
-      16,    17,     0,     0,     0,     0,     0,     7,     0,     0,
-       0,     0,     0,     0,     0,    14,     0,     8,     9,    10,
-      11,     0,     0,    13,     0,     0,     0,     0,    20,    21,
-       0,     0,     0,     0,     0,    18,    19,     0,     0,     0,
-       0,     0,     0,    33,     0,     0,     0,     0,     0,     0,
-      31,    22,     0,     0,     0,     0,     0,    28,    29,    30,
-      27,     0,    32,    22,    22,    22,    12,     0,     0,    23,
-       0,     0,     0,    22,    22,    22,    25,    26,     0,     0,
-      22,    24
+       2,     0,     0,     0,     0,     0,     0,     2,     0,     2,
+       1,     0,     0,     4,     0,     5,    17,    18,    19,     0,
+       0,     0,     0,     0,     6,     2,     0,     0,     0,     0,
+       0,     7,     3,     0,     0,    10,    16,     0,     8,     9,
+      11,    12,     0,    14,     0,    15,    20,     0,     0,    23,
+       0,    20,     0,     0,     0,     0,     0,     0,    22,     0,
+       0,     0,     0,     0,     0,     0,     0,    34,     0,     0,
+       0,     0,     0,    32,    23,    13,    20,    23,     0,     0,
+       0,    29,    30,    31,    28,    21,    24,    33,    23,    23,
+       0,     0,     0,     0,     0,    23,    23,    23,    26,    27,
+       0,     0,    23,    25
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -72,   -72,    43,   -38,   -12,   -72,    72,   -10,     6,   -71,
-     -28,   -53
+     -70,     5,     9,   -70,    27,   -70,   -70,    45,   -70,   -12,
+     -47,   -69,   -28,   -55
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     4,     5,     6,     7,     8,    25,    22,    47,    54,
-      61,    64
+       0,     4,    25,    31,     7,    35,     9,    22,    43,    19,
+      49,    56,    63,    68
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -696,69 +637,65 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      80,    92,    67,    68,    69,    65,    45,    23,    26,     9,
-      45,    45,    87,    88,    89,    31,    32,    93,    27,    35,
-      82,    10,    96,    97,    98,    70,    42,    11,    50,   101,
-      51,    52,    46,    53,    33,    34,    46,    46,    76,    77,
-      78,    79,     1,     2,    12,     3,    19,    20,    21,    13,
-      14,    15,     1,     2,    55,    56,    18,    24,    16,    17,
-      29,    28,    30,    36,    37,    59,    60,    38,    39,    62,
-      57,    63,    40,    41,    44,    48,    58,    66,    49,    71,
-      73,    74,    72,    85,     0,    75,     0,     0,    81,    90,
-      83,    84,     0,    95,    86,    91,     0,    94,    99,     0,
-     100,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,    43
+      20,    70,    71,    72,    58,    84,    69,    23,    86,    16,
+      17,    18,    13,     5,    15,    36,    94,    24,     6,    90,
+      91,    29,    30,    87,    73,    44,    98,    99,   100,    85,
+      32,    66,    95,   103,     1,     2,     8,     3,    33,    34,
+      47,    48,    81,    82,    83,    65,    52,    10,    11,    53,
+      12,    54,    21,    26,    55,    14,    27,    28,    50,    37,
+      59,    38,    39,    62,    40,    41,    46,    42,    67,    78,
+      57,    60,    61,    64,    76,    51,     0,    74,    79,    75,
+      77,    80,    96,    88,    89,     0,    92,    45,    93,    97,
+       0,   101,     0,   102
 };
 
 static const yytype_int8 yycheck[] =
 {
-      71,    10,     3,     4,     5,    58,    44,    17,    16,     6,
-      48,    49,    83,    84,    85,     7,     8,    26,    26,    29,
-      73,     6,    93,    94,    95,    26,    36,     6,     9,   100,
-      11,    12,    44,    14,     7,     8,    48,    49,    66,    67,
-      68,    69,    12,    13,     0,    15,    17,    18,    19,     6,
-       7,     8,    12,    13,    48,    49,    22,     6,    27,    27,
-      27,    16,    23,    27,    26,     6,     6,    26,    26,    14,
-      22,     6,    26,    26,    24,    26,    22,    16,    26,    26,
-       5,    23,    26,    26,    -1,    23,    -1,    -1,    25,    25,
-      24,    24,    -1,    24,    26,    25,    -1,    26,    25,    -1,
-      26,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,
-      -1,    -1,    -1,    41
+      12,     3,     4,     5,    51,    74,    61,    16,    77,    17,
+      18,    19,     7,     6,     9,    27,    10,    26,     6,    88,
+      89,     7,     8,    78,    26,    37,    95,    96,    97,    76,
+      25,    59,    26,   102,    12,    13,     6,    15,     7,     8,
+      12,    13,    70,    71,    72,    57,     6,     0,    27,     9,
+      27,    11,     6,    16,    14,    22,    27,    23,     6,    27,
+      16,    26,    26,     6,    26,    26,    24,    26,     6,     5,
+      27,    22,    22,    25,    65,    48,    -1,    26,    23,    26,
+      26,    23,    26,    24,    24,    -1,    25,    42,    25,    24,
+      -1,    25,    -1,    26
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    12,    13,    15,    30,    31,    32,    33,    34,     6,
-       6,     6,     0,    31,    31,    31,    27,    27,    22,    17,
-      18,    19,    36,    36,     6,    35,    16,    26,    16,    27,
-      23,     7,     8,     7,     8,    36,    27,    26,    26,    26,
-      26,    26,    36,    35,    24,    32,    33,    37,    26,    26,
-       9,    11,    12,    14,    38,    37,    37,    22,    22,     6,
-       6,    39,    14,     6,    40,    40,    16,     3,     4,     5,
-      26,    26,    26,     5,    23,    23,    39,    39,    39,    39,
-      38,    25,    40,    24,    24,    26,    26,    38,    38,    38,
-      25,    25,    10,    26,    26,    24,    38,    38,    38,    25,
-      26,    38
+       0,    12,    13,    15,    31,     6,     6,    34,     6,    36,
+       0,    27,    27,    31,    22,    31,    17,    18,    19,    39,
+      39,     6,    37,    16,    26,    32,    16,    27,    23,     7,
+       8,    33,    31,     7,     8,    35,    39,    27,    26,    26,
+      26,    26,    26,    38,    39,    37,    24,    12,    13,    40,
+       6,    34,     6,     9,    11,    14,    41,    27,    40,    16,
+      22,    22,     6,    42,    25,    39,    42,     6,    43,    43,
+       3,     4,     5,    26,    26,    26,    32,    26,     5,    23,
+      23,    42,    42,    42,    41,    40,    41,    43,    24,    24,
+      41,    41,    25,    25,    10,    26,    26,    24,    41,    41,
+      41,    25,    26,    41
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    29,    30,    31,    31,    31,    31,    32,    32,    32,
-      33,    33,    34,    35,    35,    36,    36,    36,    37,    37,
-      37,    37,    38,    38,    38,    38,    38,    38,    39,    39,
-      39,    39,    40,    40
+       0,    30,    31,    31,    31,    31,    32,    32,    33,    33,
+      34,    35,    35,    36,    37,    38,    38,    39,    39,    39,
+      40,    40,    40,    41,    41,    41,    41,    41,    41,    42,
+      42,    42,    42,    43,    43
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     0,     2,     2,     2,     5,     7,     7,
-       7,     7,    14,     5,     3,     1,     1,     1,     3,     3,
-       2,     2,     0,     6,    13,     9,     9,     4,     3,     3,
-       3,     2,     3,     1
+       0,     2,     0,     6,     3,     3,     1,     2,     2,     2,
+       5,     2,     2,    11,     4,     2,     0,     1,     1,     1,
+       0,     6,     3,     0,     5,    13,     9,     9,     4,     3,
+       3,     3,     2,     3,     1
 };
 
 
@@ -1221,200 +1158,206 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* PROG: DECLARACAO  */
+  case 2: /* DECLARACAO: %empty  */
 #line 22 "analisador_sintatico.y"
-                 {printf("Inicio do codigo\n");}
-#line 1228 "analisador_sintatico.tab.c"
-    break;
-
-  case 3: /* DECLARACAO: %empty  */
-#line 24 "analisador_sintatico.y"
             {printf("Fim do programa\n");}
-#line 1234 "analisador_sintatico.tab.c"
+#line 1165 "analisador_sintatico.tab.c"
     break;
 
-  case 4: /* DECLARACAO: DVAR DECLARACAO  */
+  case 3: /* DECLARACAO: VAR ID COL TYPE DVAR DECLARACAO  */
+#line 23 "analisador_sintatico.y"
+                                          {printf("Declarando variavel\n");}
+#line 1171 "analisador_sintatico.tab.c"
+    break;
+
+  case 4: /* DECLARACAO: CONST DCONS DECLARACAO  */
+#line 24 "analisador_sintatico.y"
+                                 {printf("Declarando consatnte\n");}
+#line 1177 "analisador_sintatico.tab.c"
+    break;
+
+  case 5: /* DECLARACAO: FN DFN DECLARACAO  */
 #line 25 "analisador_sintatico.y"
-                          {printf("Declarando variavel\n");}
-#line 1240 "analisador_sintatico.tab.c"
+                            {printf("Declarando função\n");}
+#line 1183 "analisador_sintatico.tab.c"
     break;
 
-  case 5: /* DECLARACAO: DCONS DECLARACAO  */
-#line 26 "analisador_sintatico.y"
-                           {printf("Declarando consatnte\n");}
-#line 1246 "analisador_sintatico.tab.c"
+  case 6: /* DVAR: SCOL  */
+#line 28 "analisador_sintatico.y"
+            {printf("Declarando varaivel sem iniciar valor\n");}
+#line 1189 "analisador_sintatico.tab.c"
     break;
 
-  case 6: /* DECLARACAO: DFN DECLARACAO  */
-#line 27 "analisador_sintatico.y"
-                         {printf("Declarando função\n");}
-#line 1252 "analisador_sintatico.tab.c"
+  case 7: /* DVAR: ATRIB DVAR2  */
+#line 29 "analisador_sintatico.y"
+                      {printf("Declarando variavel iniciando valor...\n");}
+#line 1195 "analisador_sintatico.tab.c"
     break;
 
-  case 7: /* DVAR: VAR ID COL TYPE SCOL  */
-#line 30 "analisador_sintatico.y"
-                           {printf("Declarando varaivel sem iniciar valor\n");}
-#line 1258 "analisador_sintatico.tab.c"
-    break;
-
-  case 8: /* DVAR: VAR ID COL TYPE ATRIB LITERALINT SCOL  */
-#line 31 "analisador_sintatico.y"
-                                                {printf("Declarando variavel com inteiro\n");}
-#line 1264 "analisador_sintatico.tab.c"
-    break;
-
-  case 9: /* DVAR: VAR ID COL TYPE ATRIB LITERALFLOAT SCOL  */
+  case 8: /* DVAR2: LITERALINT SCOL  */
 #line 32 "analisador_sintatico.y"
-                                                  {printf("Declarando variavel com float\n");}
-#line 1270 "analisador_sintatico.tab.c"
+                       {printf("Declarando variavel com inteiro\n");}
+#line 1201 "analisador_sintatico.tab.c"
     break;
 
-  case 10: /* DCONS: CONST ID COL TYPE ATRIB LITERALINT SCOL  */
-#line 35 "analisador_sintatico.y"
-                                               {printf("Declarando constante com inteiro\n");}
-#line 1276 "analisador_sintatico.tab.c"
+  case 9: /* DVAR2: LITERALFLOAT SCOL  */
+#line 33 "analisador_sintatico.y"
+                             {printf("Declarando variavel com float\n");}
+#line 1207 "analisador_sintatico.tab.c"
     break;
 
-  case 11: /* DCONS: CONST ID COL TYPE ATRIB LITERALFLOAT SCOL  */
+  case 10: /* DCONS: ID COL TYPE ATRIB DCONS2  */
 #line 36 "analisador_sintatico.y"
-                                                    {printf("Declarando constante com float\n");}
-#line 1282 "analisador_sintatico.tab.c"
+                                {printf("Declarando constante...\n");}
+#line 1213 "analisador_sintatico.tab.c"
     break;
 
-  case 12: /* DFN: FN ID OPAR PARMS CPAR COL TYPE OBRAC DCS CMDS RETURN SCOL CBRAC SCOL  */
+  case 11: /* DCONS2: LITERALINT SCOL  */
 #line 39 "analisador_sintatico.y"
-                                                                          {printf("Declarando função\n");}
-#line 1288 "analisador_sintatico.tab.c"
+                        {printf("Declarando constante com inteiro\n");}
+#line 1219 "analisador_sintatico.tab.c"
     break;
 
-  case 13: /* PARMS: ID COL TYPE SCOL PARMS  */
-#line 42 "analisador_sintatico.y"
-                              {printf("Parametros intermidiarios\n");}
-#line 1294 "analisador_sintatico.tab.c"
+  case 12: /* DCONS2: LITERALFLOAT SCOL  */
+#line 40 "analisador_sintatico.y"
+                                  {printf("Declarando constante com float\n");}
+#line 1225 "analisador_sintatico.tab.c"
     break;
 
-  case 14: /* PARMS: ID COL TYPE  */
+  case 13: /* DFN: ID OPAR PARMS CPAR COL TYPE OBRAC DCS CMDS CBRAC SCOL  */
 #line 43 "analisador_sintatico.y"
-                      {printf("Ultimo parametro\n");}
-#line 1300 "analisador_sintatico.tab.c"
+                                                           {printf("Declarando função\n");}
+#line 1231 "analisador_sintatico.tab.c"
     break;
 
-  case 15: /* TYPE: BOOL  */
+  case 14: /* PARMS: ID COL TYPE PARMS2  */
 #line 46 "analisador_sintatico.y"
-           {printf("Tipo booleano\n");}
-#line 1306 "analisador_sintatico.tab.c"
+                          {printf("Parametros novo\n");}
+#line 1237 "analisador_sintatico.tab.c"
     break;
 
-  case 16: /* TYPE: INT  */
-#line 47 "analisador_sintatico.y"
-              {printf("Tipo inteiro\n");}
-#line 1312 "analisador_sintatico.tab.c"
+  case 15: /* PARMS2: SCOL PARMS  */
+#line 49 "analisador_sintatico.y"
+                   {printf("Parametros intermidiarios\n");}
+#line 1243 "analisador_sintatico.tab.c"
     break;
 
-  case 17: /* TYPE: FLOAT  */
-#line 48 "analisador_sintatico.y"
-                {printf("Tipo float\n");}
-#line 1318 "analisador_sintatico.tab.c"
+  case 16: /* PARMS2: %empty  */
+#line 50 "analisador_sintatico.y"
+                {printf("Ultimo parametro\n");}
+#line 1249 "analisador_sintatico.tab.c"
     break;
 
-  case 18: /* DCS: DVAR SCOL DCS  */
-#line 51 "analisador_sintatico.y"
-                   {printf("Declarando variavel\n");}
-#line 1324 "analisador_sintatico.tab.c"
-    break;
-
-  case 19: /* DCS: DCONS SCOL DCS  */
-#line 52 "analisador_sintatico.y"
-                         {printf("Declarando constante\n");}
-#line 1330 "analisador_sintatico.tab.c"
-    break;
-
-  case 20: /* DCS: DVAR SCOL  */
+  case 17: /* TYPE: BOOL  */
 #line 53 "analisador_sintatico.y"
-                    {printf("Declarando ultima variavel\n");}
-#line 1336 "analisador_sintatico.tab.c"
+           {printf("Tipo booleano\n");}
+#line 1255 "analisador_sintatico.tab.c"
     break;
 
-  case 21: /* DCS: DCONS SCOL  */
+  case 18: /* TYPE: INT  */
 #line 54 "analisador_sintatico.y"
-                     {printf("Declarando ultima consatnte\n");}
-#line 1342 "analisador_sintatico.tab.c"
+              {printf("Tipo inteiro\n");}
+#line 1261 "analisador_sintatico.tab.c"
     break;
 
-  case 22: /* CMDS: %empty  */
-#line 57 "analisador_sintatico.y"
-      {printf("Fim comandos\n");}
-#line 1348 "analisador_sintatico.tab.c"
+  case 19: /* TYPE: FLOAT  */
+#line 55 "analisador_sintatico.y"
+                {printf("Tipo float\n");}
+#line 1267 "analisador_sintatico.tab.c"
     break;
 
-  case 23: /* CMDS: VAR ID ATRIB EXP SCOL CMDS  */
+  case 20: /* DCS: %empty  */
 #line 58 "analisador_sintatico.y"
-                                     {printf("Comando atribuição\n");}
-#line 1354 "analisador_sintatico.tab.c"
+     {printf("Fim declarações\n");}
+#line 1273 "analisador_sintatico.tab.c"
     break;
 
-  case 24: /* CMDS: IF OPAR COND CPAR OBRAC CMDS CBRAC ELSE OBRAC CMDS CBRAC SCOL CMDS  */
+  case 21: /* DCS: VAR ID COL TYPE DVAR DCS  */
 #line 59 "analisador_sintatico.y"
-                                                                             {printf("If-else\n");}
-#line 1360 "analisador_sintatico.tab.c"
+                                   {printf("Declarando variavel\n");}
+#line 1279 "analisador_sintatico.tab.c"
     break;
 
-  case 25: /* CMDS: IF OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS  */
+  case 22: /* DCS: CONST DCONS DCS  */
 #line 60 "analisador_sintatico.y"
-                                                       {printf("If\n");}
-#line 1366 "analisador_sintatico.tab.c"
+                          {printf("Declarando constante\n");}
+#line 1285 "analisador_sintatico.tab.c"
     break;
 
-  case 26: /* CMDS: WHILE OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS  */
-#line 61 "analisador_sintatico.y"
-                                                          {printf("While\n");}
-#line 1372 "analisador_sintatico.tab.c"
+  case 23: /* CMDS: %empty  */
+#line 63 "analisador_sintatico.y"
+      {printf("Fim comandos\n");}
+#line 1291 "analisador_sintatico.tab.c"
     break;
 
-  case 27: /* CMDS: RETURN EXP SCOL CMDS  */
-#line 62 "analisador_sintatico.y"
-                               {printf("Um retorno\n");}
-#line 1378 "analisador_sintatico.tab.c"
+  case 24: /* CMDS: ID ATRIB EXP SCOL CMDS  */
+#line 64 "analisador_sintatico.y"
+                                 {printf("Comando atribuição\n");}
+#line 1297 "analisador_sintatico.tab.c"
     break;
 
-  case 28: /* EXP: ID PLUS EXP  */
+  case 25: /* CMDS: IF OPAR COND CPAR OBRAC CMDS CBRAC ELSE OBRAC CMDS CBRAC SCOL CMDS  */
 #line 65 "analisador_sintatico.y"
-                 {printf("Soma\n");}
-#line 1384 "analisador_sintatico.tab.c"
+                                                                             {printf("If-else\n");}
+#line 1303 "analisador_sintatico.tab.c"
     break;
 
-  case 29: /* EXP: ID TIMES EXP  */
+  case 26: /* CMDS: IF OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS  */
 #line 66 "analisador_sintatico.y"
-                       {printf("Multiplicação\n");}
-#line 1390 "analisador_sintatico.tab.c"
+                                                       {printf("If\n");}
+#line 1309 "analisador_sintatico.tab.c"
     break;
 
-  case 30: /* EXP: ID EQUAL EXP  */
+  case 27: /* CMDS: WHILE OPAR COND CPAR OBRAC CMDS CBRAC SCOL CMDS  */
 #line 67 "analisador_sintatico.y"
-                       {printf("Comparação\n");}
-#line 1396 "analisador_sintatico.tab.c"
+                                                          {printf("While\n");}
+#line 1315 "analisador_sintatico.tab.c"
     break;
 
-  case 31: /* EXP: ID SCOL  */
+  case 28: /* CMDS: RETURN EXP SCOL CMDS  */
 #line 68 "analisador_sintatico.y"
-                  {printf("Ultimo termo\n");}
-#line 1402 "analisador_sintatico.tab.c"
+                               {printf("Um retorno\n");}
+#line 1321 "analisador_sintatico.tab.c"
     break;
 
-  case 32: /* COND: ID EQUAL COND  */
+  case 29: /* EXP: ID PLUS EXP  */
 #line 71 "analisador_sintatico.y"
-                    {printf("Condicional\n");}
-#line 1408 "analisador_sintatico.tab.c"
+                 {printf("Soma\n");}
+#line 1327 "analisador_sintatico.tab.c"
     break;
 
-  case 33: /* COND: ID  */
+  case 30: /* EXP: ID TIMES EXP  */
 #line 72 "analisador_sintatico.y"
+                       {printf("Multiplicação\n");}
+#line 1333 "analisador_sintatico.tab.c"
+    break;
+
+  case 31: /* EXP: ID EQUAL EXP  */
+#line 73 "analisador_sintatico.y"
+                       {printf("Comparação\n");}
+#line 1339 "analisador_sintatico.tab.c"
+    break;
+
+  case 32: /* EXP: ID SCOL  */
+#line 74 "analisador_sintatico.y"
+                  {printf("Ultimo termo\n");}
+#line 1345 "analisador_sintatico.tab.c"
+    break;
+
+  case 33: /* COND: ID EQUAL COND  */
+#line 77 "analisador_sintatico.y"
+                    {printf("Condicional\n");}
+#line 1351 "analisador_sintatico.tab.c"
+    break;
+
+  case 34: /* COND: ID  */
+#line 78 "analisador_sintatico.y"
              {printf("Ultimo termo da condição\n");}
-#line 1414 "analisador_sintatico.tab.c"
+#line 1357 "analisador_sintatico.tab.c"
     break;
 
 
-#line 1418 "analisador_sintatico.tab.c"
+#line 1361 "analisador_sintatico.tab.c"
 
       default: break;
     }
@@ -1607,7 +1550,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 75 "analisador_sintatico.y"
+#line 81 "analisador_sintatico.y"
 
 
 int main(int argc, char *argv[]) {

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
+#include "analisador_sintatico.tab.h"
 
 // representa os tokens da linguagem LF
 // typedef enum _TOKEN 
@@ -88,4 +88,7 @@ SPACE [ ]
 <INITIAL>(0|[1-9][0-9]*)\.[0-9]+ {return LITERALFLOAT;}
 <INITIAL>(.) {return INVALID_INPUT;}
 %%
-
+int yywrap(void) 
+{
+    return 1; 
+}
